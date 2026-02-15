@@ -54,8 +54,6 @@ class Loader:
 
 loader = Loader(2025, 2025, ['race', 'sprint'])
 
-df
-
 # %%
 loader.process_one(2025, 1, 'race')
 # %%
