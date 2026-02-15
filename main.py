@@ -38,22 +38,24 @@ class Loader:
             print("Erro capturado")
             return pd.DataFrame()
         
-    def save_data(self, year,  gp, identifier, df):
-        pass
+    def save_data(self, year:int,  gp:int, identifier:str, df:pd.DataFrame):
+        df.to_parquet(f"data/{year}_{gp}_{identifier}.parquet")
+
+    def process_one(self, year:int, gp:int, identifier:str):
+        df = self.get_data(year, gp, identifier)
+        if df.shape[0] == 0:
+            return False
+        else:
+            self.save_data(year, gp, identifier, df)
+            return True
+        
 
 # %%
 
-loader = Loader(2025, 1, ['race', 'sprint'])
+loader = Loader(2025, 2025, ['race', 'sprint'])
 
-df = loader.get_data(2025, 1, 'race')
 df
 
 # %%
-session = fastf1.get_session(2025, 1, 'race')
-session.load(
-    laps=False,
-    telemetry=False,
-    weather=False,
-    messages=False,
-)
+loader.process_one(2025, 1, 'race')
 # %%
